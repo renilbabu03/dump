@@ -14,3 +14,7 @@
     background: lightgray;
   }
   
+
+  .invalid{
+    border-color: red;
+  }

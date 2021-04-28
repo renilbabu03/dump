@@ -25,8 +25,24 @@ class MasterForm extends Component {
     this.state = {
       currentStep: 1,
       email: "",
+      address: "",
+
       username: "",
-      password: ""
+      firstname: "",
+
+      password: "",
+      securitykey: "",
+
+      errors:{
+        email: "",
+        address: "",
+  
+        username: "",
+        firstname: "",
+  
+        password: "",
+        securitykey: ""
+      }
     };
 
     // Bind the submission to handleChange()
@@ -35,6 +51,7 @@ class MasterForm extends Component {
     // Bind new functions for next and previous
     this._next = this._next.bind(this);
     this._prev = this._prev.bind(this);
+    this.clearForm = this.clearForm.bind(this);
   }
 
   // Use the submitted data to set the state
@@ -42,7 +59,8 @@ class MasterForm extends Component {
     const { name, value } = event.target;
     this.setState({
       [name]: value
-    });
+    },()=>this.handleValidation());
+    
   }
 
   // Trigger an alert on form submission
@@ -93,12 +111,71 @@ class MasterForm extends Component {
     return null;
   }
 
+
+  get clearButton() {
+    return (
+      <Button color="secondary float-left" onClick={this.clearForm}>
+        Clear
+      </Button>
+    );
+
+    // ...else return nothing
+    return null;
+  }
+
+
+
+  handleValidation(){
+    switch(this.state.currentStep){
+      case 1 : this.handleStep1Validation();break;
+      case 2 : this.handleStep2Validation();break;
+      case 3 : this.handleStep3Validation();break;
+    }
+  }
+
+
+  clearForm(){
+    switch(this.state.currentStep){
+      case 1 : this.clearStep1Form();break;
+      case 2 : this.handleStep2Validation();break;
+      case 3 : this.handleStep3Validation();break;
+    }
+  }
+
+  clearStep1Form(){
+    this.setState({
+      email:"",
+      address:""
+    },()=>this.handleValidation())
+  }
+
+
+
+  handleStep1Validation(){
+    const { email, address } = this.state;
+    if(!email || !address){
+      this.isFormValid = false
+    }else{
+      this.isFormValid = true;
+    }
+  }
+
+  handleStep2Validation(){
+
+  }
+
+  handleStep3Validation(){
+
+  }
+
+  isFormValid
+
   get nextButton() {
     let currentStep = this.state.currentStep;
     // If the current step is not 3, then render the "next" button
     if (currentStep < 3) {
       return (
-        <Button color="primary float-right" onClick={this._next}>
+        <Button color="primary float-right" onClick={this._next} disabled={!this.isFormValid}>
           Next
         </Button>
       );
@@ -132,22 +209,26 @@ class MasterForm extends Component {
               <Step1
                 currentStep={this.state.currentStep}
                 handleChange={this.handleChange}
-                email={this.state.email}
+                state={this.state}
+     
               />
               <Step2
                 currentStep={this.state.currentStep}
                 handleChange={this.handleChange}
-                email={this.state.username}
+                state={this.state}
+              
               />
               <Step3
                 currentStep={this.state.currentStep}
                 handleChange={this.handleChange}
-                email={this.state.password}
+                state={this.state}
+               
               />
             </CardBody>
             <CardFooter>
               {this.previousButton}
               {this.nextButton}
+              {this.clearButton}
               {this.submitButton}
             </CardFooter>
           </Card>

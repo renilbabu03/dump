@@ -5,7 +5,7 @@ const Step3 = props => {
   if (props.currentStep !== 3) {
     return null;
   }
-
+  var {state} = props;
   return (
     <>
       <p>We recommend creating a secure password for your account</p>
@@ -16,7 +16,18 @@ const Step3 = props => {
           name="password"
           id="password"
           placeholder="Enter your Password"
-          value={props.password} // Prop: The username input data
+          value={state.password} // Prop: The username input data
+          onChange={props.handleChange} // Prop: Puts data into the state
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label for="securitykey">securitykey</Label>
+        <Input
+          type="text"
+          name="securitykey"
+          id="securitykey"
+          placeholder="Enter your securitykey"
+          value={state.securitykey} // Prop: The username input data
           onChange={props.handleChange} // Prop: Puts data into the state
         />
       </FormGroup>
