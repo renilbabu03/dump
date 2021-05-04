@@ -1,23 +1,29 @@
-import React from "react";
+import React, { Component }  from "react";
 import { FormGroup, Label, Input } from "reactstrap";
 
-const Step2 = props => {
-  if (props.currentStep !== 2) {
-    return null;
+
+class Step2 extends Component{
+
+  state = {
+
   }
-  var {state} = props;
-  return (
-    <>
-      <p>What should we call you?</p>
-      <FormGroup>
+
+  constructor(props) {
+    super(props);
+  }
+
+  render(){
+   return this.props. currentStep == 2 && <>
+    <p>How can we reach you?</p>
+    <FormGroup>
         <Label for="username">Username</Label>
         <Input
           type="text"
           name="username"
           id="username"
           placeholder="Enter your Username"
-          value={state.username} // Prop: The username input data
-          onChange={props.handleChange} // Prop: Puts data into the state
+          value={this.state.username} 
+          // onChange={props.handleChange} 
         />
       </FormGroup>
       <FormGroup>
@@ -27,12 +33,12 @@ const Step2 = props => {
           name="firstname"
           id="firstname"
           placeholder="Enter your firstname"
-          value={state.firstname} // Prop: The username input data
-          onChange={props.handleChange} // Prop: Puts data into the state
+          value={this.state.firstname} 
+          // onChange={props.handleChange} 
         />
       </FormGroup>
-    </>
-  );
-};
+  </>
+  }
 
+}
 export default Step2;

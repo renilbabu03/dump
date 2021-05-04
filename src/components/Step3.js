@@ -1,14 +1,18 @@
-import React from "react";
+import React,{ Component }  from "react";
 import { FormGroup, Label, Input, Button } from "reactstrap";
+class Step3 extends Component{
 
-const Step3 = props => {
-  if (props.currentStep !== 3) {
-    return null;
+  state = {
+
   }
-  var {state} = props;
-  return (
-    <>
-      <p>We recommend creating a secure password for your account</p>
+
+  constructor(props) {
+    super(props);
+  }
+
+  render(){
+   return this.props. currentStep == 3 && <>
+   <p>We recommend creating a secure password for your account</p>
       <FormGroup>
         <Label for="password">Password</Label>
         <Input
@@ -16,8 +20,8 @@ const Step3 = props => {
           name="password"
           id="password"
           placeholder="Enter your Password"
-          value={state.password} // Prop: The username input data
-          onChange={props.handleChange} // Prop: Puts data into the state
+          value={this.state.password} 
+          // onChange={props.handleChange} 
         />
       </FormGroup>
       <FormGroup>
@@ -27,12 +31,12 @@ const Step3 = props => {
           name="securitykey"
           id="securitykey"
           placeholder="Enter your securitykey"
-          value={state.securitykey} // Prop: The username input data
-          onChange={props.handleChange} // Prop: Puts data into the state
+          value={this.state.securitykey} 
+          // onChange={props.handleChange} 
         />
       </FormGroup>
-    </>
-  );
-};
+  </>
+  }
 
+}
 export default Step3;
