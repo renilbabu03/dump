@@ -1,5 +1,5 @@
 import React,{ Component }  from "react";
-import { FormGroup, Label, Input, Button } from "reactstrap";
+import { FormGroup, Label, Input } from "reactstrap";
 class Step3 extends Component{
 
   state = {
@@ -11,7 +11,7 @@ class Step3 extends Component{
   }
 
   render(){
-   return this.props. currentStep == 3 && <>
+   return <>
    <p>We recommend creating a secure password for your account</p>
       <FormGroup>
         <Label for="password">Password</Label>

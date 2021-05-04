@@ -13,7 +13,7 @@ class Step2 extends Component{
   }
 
   render(){
-   return this.props. currentStep == 2 && <>
+   return <>
     <p>How can we reach you?</p>
     <FormGroup>
         <Label for="username">Username</Label>

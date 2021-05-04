@@ -20,21 +20,23 @@ import AwesomeForm from 'react-formal'
 import MultiStepProgressBar from "./MultiStepProgressBar";
 
 class MasterForm extends Component {
+
+  state = {
+    currentStep: 1,
+    email: '',
+    address: '',
+
+    username: '',
+    firstname: '',
+
+    password: '',
+    securitykey: ''
+  };
+
+
+
   constructor(props) {
     super(props);
-
-    this.state = {
-      currentStep: 1,
-      email: "",
-      address: "",
-
-      username: "",
-      firstname: "",
-
-      password: "",
-      securitykey: ""
-    };
-
     this.handleChange = this.handleChange.bind(this);
 
     this._next = this._next.bind(this);
@@ -50,7 +52,6 @@ class MasterForm extends Component {
     
   }
 
-  // Trigger an alert on form submission
   handleSubmit = event => {
     event.preventDefault();
     const { email, username, password } = this.state;
@@ -141,9 +142,13 @@ class MasterForm extends Component {
   }
 
   render() {
+    const { email, address, username, firstname, password, securitykey} = this.state;
+
+    const values = { email, address, username, firstname, password, securitykey};
+    const { currentStep } = this.state;
     return (
       <>
-        <Form onSubmit={this.handleSubmit}>
+      
           <Card>
             <CardHeader>Create an Account</CardHeader>
             <CardBody>
@@ -151,24 +156,24 @@ class MasterForm extends Component {
                 <MultiStepProgressBar currentStep={this.state.currentStep} />
               </CardTitle>
               <CardText />
-              <Step1
+              {currentStep == 1 && <Step1
                 currentStep={this.state.currentStep}
                 handleChange={this.handleChange}
-                state={this.state}
+                values={values}
      
-              />
-              <Step2
+              />}
+             {currentStep == 2 && <Step2
                 currentStep={this.state.currentStep}
                 handleChange={this.handleChange}
-                state={this.state}
+                values={values}
               
-              />
-              <Step3
+              />}
+             {currentStep ==3 && <Step3
                 currentStep={this.state.currentStep}
                 handleChange={this.handleChange}
-                state={this.state}
+                values={values}
                
-              />
+              />}
             </CardBody>
             <CardFooter>
               {this.previousButton}
@@ -177,7 +182,7 @@ class MasterForm extends Component {
               {this.submitButton}
             </CardFooter>
           </Card>
-        </Form>
+      
       </>
     );
   }
