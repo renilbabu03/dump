@@ -18,3 +18,8 @@
   .invalid{
     border-color: red;
   }
+
+  .progress-bar{
+    padding: 2em;
+    background-color: grey;
+  }

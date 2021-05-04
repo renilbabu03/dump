@@ -7,33 +7,30 @@ import {
   CardBody,
   CardTitle,
   CardText,
-  CardFooter
+  CardFooter,
 } from "reactstrap";
 
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
-import yup from 'yup';
-import AwesomeForm from 'react-formal'
+import yup from "yup";
+import AwesomeForm from "react-formal";
 
 // import styled from "styled-components";
 import MultiStepProgressBar from "./MultiStepProgressBar";
 
 class MasterForm extends Component {
-
   state = {
     currentStep: 1,
-    email: '',
-    address: '',
+    email: "",
+    address: "",
 
-    username: '',
-    firstname: '',
+    username: "",
+    firstname: "",
 
-    password: '',
-    securitykey: ''
+    password: "",
+    securitykey: "",
   };
-
-
 
   constructor(props) {
     super(props);
@@ -47,23 +44,21 @@ class MasterForm extends Component {
   handleChange(event) {
     const { name, value } = event.target;
     this.setState({
-      [name]: value
+      [name]: value,
     });
-    
   }
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     const { email, username, password } = this.state;
   };
-
 
   _next() {
     let currentStep = this.state.currentStep;
 
     currentStep = currentStep >= 2 ? 3 : currentStep + 1;
     this.setState({
-      currentStep: currentStep
+      currentStep: currentStep,
     });
   }
 
@@ -71,55 +66,34 @@ class MasterForm extends Component {
     let currentStep = this.state.currentStep;
     currentStep = currentStep <= 1 ? 1 : currentStep - 1;
     this.setState({
-      currentStep: currentStep
+      currentStep: currentStep,
     });
   }
 
-  get previousButton() {
-    let currentStep = this.state.currentStep;
-    if (currentStep !== 1) {
-      return (
-        <Button color="secondary float-left" onClick={this._prev}>
-          Previous
-        </Button>
-      );
+
+  clearForm() {
+    switch (this.state.currentStep) {
+      case 1:
+        this.clearStep1Form();
+        break;
+      case 2:
+        this.handleStep2Validation();
+        break;
+      case 3:
+        this.handleStep3Validation();
+        break;
     }
-    return null;
   }
 
-
-  get clearButton() {
-    return (
-      <Button color="secondary float-left" onClick={this.clearForm}>
-        Clear
-      </Button>
+  clearStep1Form() {
+    this.setState(
+      {
+        email: "",
+        address: "",
+      },
+      () => this.handleValidation()
     );
-    return null;
   }
-
-
-
-
-
-  clearForm(){
-    switch(this.state.currentStep){
-      case 1 : this.clearStep1Form();break;
-      case 2 : this.handleStep2Validation();break;
-      case 3 : this.handleStep3Validation();break;
-    }
-  }
-
-  clearStep1Form(){
-    this.setState({
-      email:"",
-      address:""
-    },()=>this.handleValidation())
-  }
-
-
-
-
-
 
   get nextButton() {
     let currentStep = this.state.currentStep;
@@ -142,47 +116,54 @@ class MasterForm extends Component {
   }
 
   render() {
-    const { email, address, username, firstname, password, securitykey} = this.state;
+    const {
+      email,
+      address,
+      username,
+      firstname,
+      password,
+      securitykey,
+    } = this.state;
 
-    const values = { email, address, username, firstname, password, securitykey};
+    const values = {
+      email,
+      address,
+      username,
+      firstname,
+      password,
+      securitykey,
+    };
     const { currentStep } = this.state;
     return (
       <>
-      
-          <Card>
-            <CardHeader>Create an Account</CardHeader>
-            <CardBody>
-              <CardTitle>
-                <MultiStepProgressBar currentStep={this.state.currentStep} />
-              </CardTitle>
-              <CardText />
-              {currentStep == 1 && <Step1
-                currentStep={this.state.currentStep}
-                handleChange={this.handleChange}
-                values={values}
-     
-              />}
-             {currentStep == 2 && <Step2
-                currentStep={this.state.currentStep}
-                handleChange={this.handleChange}
-                values={values}
-              
-              />}
-             {currentStep ==3 && <Step3
-                currentStep={this.state.currentStep}
-                handleChange={this.handleChange}
-                values={values}
-               
-              />}
-            </CardBody>
-            <CardFooter>
-              {this.previousButton}
-              {this.nextButton}
-              {this.clearButton}
-              {this.submitButton}
-            </CardFooter>
-          </Card>
-      
+        <div className="progress-bar">
+          <MultiStepProgressBar currentStep={this.state.currentStep} />
+        </div>
+
+        {currentStep == 1 && (
+          <Step1
+            handleChange={this.handleChange}
+            values={values}
+            nextStep={this._next}
+            prevStep={this._prev}
+          />
+        )}
+        {currentStep == 2 && (
+          <Step2
+            nextStep={this._next}
+            prevStep={this._prev}
+            handleChange={this.handleChange}
+            values={values}
+          />
+        )}
+        {currentStep == 3 && (
+          <Step3
+            nextStep={this._next}
+            prevStep={this._prev}
+            handleChange={this.handleChange}
+            values={values}
+          />
+        )}
       </>
     );
   }
