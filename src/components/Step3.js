@@ -22,7 +22,7 @@ class Step3 extends Component {
       <>
         <Card>
           <CardHeader>
-            {" "}
+           
             <p>We recommend creating a secure password for your account</p>
           </CardHeader>
           <CardBody>

@@ -11,12 +11,60 @@ import {
   CardText,
   CardFooter,
 } from "reactstrap";
-const yup = require("yup");
+
 class Step1 extends Component {
-  state = {};
+  state = {
+    errors:{
+
+    }
+  };
 
   constructor(props) {
     super(props);
+
+    this.handleFormChange = this.handleFormChange.bind(this)
+  }
+
+  clearForm(){
+    
+  }
+
+  handleFormChange(event){
+    const { name, value } = event.target;
+
+    switch(name){
+      case 'email':
+        if(!value){
+          this.setState({errors:{
+            ...this.state.errors,
+            email:"Email Required"
+          }});
+         
+        }else{
+          this.setState({errors:{
+            ...this.state.errors,
+            email:null
+          }});
+         
+        }
+        break;
+      case 'address':
+        if(!value){
+          this.setState({errors:{
+            ...this.state.errors,
+            address:"Email Required"
+          }});
+         
+        }else{
+          this.setState({errors:{
+            ...this.state.errors,
+            address:null
+          }});
+         
+        }
+    }
+    this.props.handleChange(event)
+    
   }
 
   render() {
@@ -35,8 +83,9 @@ class Step1 extends Component {
                 id="email"
                 placeholder="Enter your Email"
                 value={this.props.values.email}
-                onChange={this.props.handleChange}
+                onChange={this.handleFormChange}
               />
+              { this.state.errors.email && <span>Email is required</span>}
             </FormGroup>
             <FormGroup>
               <Label for="address">Address</Label>
@@ -45,13 +94,16 @@ class Step1 extends Component {
                 name="address"
                 id="address"
                 placeholder="Enter your address"
-                value={this.props.address}
-                onChange={this.props.handleChange}
+                value={this.props.values.address}
+                onChange={this.handleFormChange}
               />
             </FormGroup>
           </CardBody>
           <CardFooter>
-            <Button color="primary float-right" onClick={this.props.nextStep}>
+            <Button color="primary float-left" onClick={this.props.clearForm}>
+              Clear Form
+            </Button>
+            <Button color="primary float-right" onClick={this.props.nextStep} disabled={!this.props.values.email || !this.props.values.address}>
               Next
             </Button>
           </CardFooter>

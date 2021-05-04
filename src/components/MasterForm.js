@@ -1,27 +1,19 @@
 import React, { Component } from "react";
 import {
-  Form,
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  CardText,
-  CardFooter,
+  Button
 } from "reactstrap";
 
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
-import yup from "yup";
-import AwesomeForm from "react-formal";
 
-// import styled from "styled-components";
+
 import MultiStepProgressBar from "./MultiStepProgressBar";
 
 class MasterForm extends Component {
   state = {
     currentStep: 1,
+
     email: "",
     address: "",
 
@@ -29,16 +21,20 @@ class MasterForm extends Component {
     firstname: "",
 
     password: "",
-    securitykey: "",
+    securitykey: ""
   };
 
   constructor(props) {
     super(props);
+
     this.handleChange = this.handleChange.bind(this);
 
     this._next = this._next.bind(this);
     this._prev = this._prev.bind(this);
-    this.clearForm = this.clearForm.bind(this);
+
+    this.clearStep1Form = this.clearStep1Form.bind(this);
+    this.clearStep2Form = this.clearStep2Form.bind(this);
+    this.clearStep3Form = this.clearStep3Form.bind(this);
   }
 
   handleChange(event) {
@@ -58,7 +54,7 @@ class MasterForm extends Component {
 
     currentStep = currentStep >= 2 ? 3 : currentStep + 1;
     this.setState({
-      currentStep: currentStep,
+      currentStep: currentStep
     });
   }
 
@@ -66,54 +62,31 @@ class MasterForm extends Component {
     let currentStep = this.state.currentStep;
     currentStep = currentStep <= 1 ? 1 : currentStep - 1;
     this.setState({
-      currentStep: currentStep,
+      currentStep: currentStep
     });
   }
 
-
-  clearForm() {
-    switch (this.state.currentStep) {
-      case 1:
-        this.clearStep1Form();
-        break;
-      case 2:
-        this.handleStep2Validation();
-        break;
-      case 3:
-        this.handleStep3Validation();
-        break;
-    }
+  clearStep1Form(){
+      this.setState({
+        email:"",
+        address:""
+      })
   }
 
-  clearStep1Form() {
-    this.setState(
-      {
-        email: "",
-        address: "",
-      },
-      () => this.handleValidation()
-    );
+  clearStep2Form(){
+    this.setState({
+      username:"",
+      firstname:""
+    })
   }
 
-  get nextButton() {
-    let currentStep = this.state.currentStep;
-    if (currentStep < 3) {
-      return (
-        <Button color="primary float-right" onClick={this._next}>
-          Next
-        </Button>
-      );
-    }
-    return null;
+  clearStep3Form(){
+    this.setState({
+      password: "",
+      securitykey: ""
+    })
   }
 
-  get submitButton() {
-    let currentStep = this.state.currentStep;
-    if (currentStep > 2) {
-      return <Button color="primary float-right">Submit</Button>;
-    }
-    return null;
-  }
 
   render() {
     const {
@@ -131,7 +104,7 @@ class MasterForm extends Component {
       username,
       firstname,
       password,
-      securitykey,
+      securitykey
     };
     const { currentStep } = this.state;
     return (
@@ -141,12 +114,15 @@ class MasterForm extends Component {
         </div>
 
         {currentStep == 1 && (
+
           <Step1
             handleChange={this.handleChange}
             values={values}
             nextStep={this._next}
             prevStep={this._prev}
+            clearForm={this.clearStep1Form}
           />
+
         )}
         {currentStep == 2 && (
           <Step2
@@ -154,6 +130,7 @@ class MasterForm extends Component {
             prevStep={this._prev}
             handleChange={this.handleChange}
             values={values}
+            clearForm={this.clearStep2Form}
           />
         )}
         {currentStep == 3 && (
@@ -161,6 +138,7 @@ class MasterForm extends Component {
             nextStep={this._next}
             prevStep={this._prev}
             handleChange={this.handleChange}
+            clearForm={this.clearStep3Form}
             values={values}
           />
         )}
